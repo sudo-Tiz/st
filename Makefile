@@ -52,11 +52,14 @@ install: st
 	chmod 644 $(DESTDIR)$(MANPREFIX)/man1/st.1
 	tic -sx st.info
 	@echo Please see the README file regarding the terminfo entry of st.
+	[ -d ${GETKEYSDIR} ] && awk '/^\/\* BEGINNING OF THE DOC \*\//,/^\/\* END OF THE DOC \*\// { print }' config.h > ${GETKEYSDIR}/st.h
+	chown ${USER}:${GROUP} ${GETKEYSDIR}/st.h
 
 uninstall:
-	rm -f $(DESTDIR)$(PREFIX)/bin/st
-	rm -f $(DESTDIR)$(PREFIX)/bin/st-copyout
-	rm -f $(DESTDIR)$(PREFIX)/bin/st-urlhandler
-	rm -f $(DESTDIR)$(MANPREFIX)/man1/st.1
+	rm -f $(DESTDIR)$(PREFIX)/bin/st \
+	 	$(DESTDIR)$(PREFIX)/bin/st-copyout \
+		$(DESTDIR)$(PREFIX)/bin/st-urlhandler \
+		$(DESTDIR)$(MANPREFIX)/man1/st.1 \
+		${GETKEYSDIR}/st.h
 
 .PHONY: all options clean dist install uninstall
